@@ -1,5 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 
+import Form from '../utility/Form'
+
 const BookContext = createContext();
 
 export const BookProvider = ({children}) => {
@@ -23,9 +25,21 @@ export const BookProvider = ({children}) => {
         menu.classList.toggle('hidden');
     }
 
+    const toggleForm = () => {
+        const form = document.querySelector('#bookForm')
+
+        form.classList.toggle('hidden')
+    }
+
+    const validateForm = (e) => {
+        console.log(e)
+    }
+
     return <BookContext.Provider value = {{
         book,
         handleClick,
+        toggleForm,
+        validateForm
     }}>
         {children}
     </BookContext.Provider>

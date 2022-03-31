@@ -2,10 +2,13 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 
-import BookContext from '../context/BookContext'
+import BookContext from '../context/BookContext';
+
 
 function Navigation() {
+
   const { handleClick } = useContext(BookContext)
+
   return (
     <nav className='text-right'>
         <div className='p-1 flex justify-between items-center'>
