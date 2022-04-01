@@ -15,14 +15,7 @@ function Home() {
       </header>
       <div> 
         <div className='mt-8 grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 2xl:grid-cols-8 gap-10 content-center'>
-          <BookCard />
-          <BookCard />
-          <BookCard />
-          <BookCard />
-          <BookCard />
-          <BookCard />
-          <BookCard />
-          <BookCard />
+          <BookCard arr='0' />
           <AddBook />
         </div>
       </div>

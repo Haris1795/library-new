@@ -2,9 +2,11 @@ import React from 'react';
 import { useContext } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
+import axios from 'axios';
 
 import BookContext from '../context/BookContext'
 
+//Values for formik
 const initialValues = {
     title: '',
     author: '',
@@ -12,25 +14,25 @@ const initialValues = {
     number: ''
 }
 
-/*
-const validationSchema = Yup.object({
-    title: Yup.string().required('Required!'),
-    author: Yup.string().required('Required!'),
-    link: Yup.string().url('Invalid URL format').required('Required!'),
-    number: Yup.number().required('Required!')
-
-})
-*/
+// @todo Figure out a way to reload the page or load the new book on submit
 
 function Form() {
 
-    const { toggleForm, validateForm } = useContext(BookContext)
+    const { toggleForm} = useContext(BookContext)
+    
     const formik = useFormik({
         initialValues,
-        onSubmit: values => {validateForm(values)}
+        onSubmit:   (values, actions) => {
+            axios.post('http://localhost:5000/api/v1/books', values) // Sending user form values to back-end server 
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+            actions.resetForm();
+        }
     })
-
-    console.log('Form-Values', formik.values)
 
   return (
     <div className= 'form hidden bg-stone-300' id='bookForm'>
@@ -39,7 +41,7 @@ function Form() {
             <label className='p-2 font-semibold'>Enter the title of the book:
                 <input 
                     type='text' 
-                    id='inputStyle title'
+                    id='inputStyle'
                     name='title'
                     onChange={formik.handleChange}
                     value={formik.values.title}
@@ -49,7 +51,7 @@ function Form() {
             <label className='p-2 font-semibold'>Enter the author of the book:
                 <input 
                 type='text'
-                id='inputStyle author'
+                id='inputStyle'
                 name='author'
                 onChange={formik.handleChange}
                 value={formik.values.author}
@@ -59,7 +61,7 @@ function Form() {
             <label className='p-2 font-semibold'>Enter the URL of the book cover:
                 <input 
                 type='url'
-                id='inputStyle link'
+                id='inputStyle'
                 name='link' 
                 onChange={formik.handleChange}
                 value={formik.values.link}
@@ -79,7 +81,7 @@ function Form() {
             </label>
             <div className='mt-10 flex justify-arround'>
             <input className='button w-2/4' type="submit" value='submit'/>
-            <input className='button w-2/4' type="button" value='Cancel' onClick = {() => {toggleForm()}}/>
+            <input className='button w-2/4' type="button" value='Close' onClick = {() => {toggleForm()}, ()=>{window.location.reload()}}/>
             </div>
         </form>
     </div>
